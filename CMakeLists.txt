@@ -3,4 +3,12 @@ project(Whotsapp)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Whotsapp main.cpp)
+add_executable(Whotsapp main.cpp
+        User/User.cpp
+        User/User.h
+        Message/Message.cpp
+        Message/Message.h
+        Chat/Chat.cpp
+        Chat/Chat.h
+        ChatRegister/ChatRegister.cpp
+        ChatRegister/ChatRegister.h)

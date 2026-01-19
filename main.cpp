@@ -1,16 +1,18 @@
 #include <iostream>
+#include "User/User.h"
+#include "Message/Message.h"
 
-// TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 int main() {
-    // TIP Press <shortcut actionId="RenameElement"/> when your caret is at the <b>lang</b> variable name to see how CLion can help you rename it.
-    auto lang = "C++";
-    std::cout << "Hello and welcom " << lang << "!\n";
+    User user1("gabri", "Gabriele");
+    User user2("alex", "Alessandro");
 
-    for (int i = 1; i <= 5; i++) {
-        // TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        std::cout << "i = " << i << std::endl;
-    }
+    Message msg(user1, user2, "Ciao Alessandro, come stai?");
+
+    std::cout << "Mittente: " << msg.getSender().getName() << " (" << msg.getSender().getUsername() << ")" << std::endl;
+    std::cout << "Destinatario: " << msg.getReceiver().getName() << " (" << msg.getReceiver().getUsername() << ")" << std::endl;
+    std::cout << "Messaggio: " << msg.getText() << std::endl;
+    std::time_t ts = msg.getTimestamp();
+    std::cout << "Data: " << std::ctime(&ts);
 
     return 0;
-    // TIP See CLion help at <a href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>. Also, you can try interactive lessons for CLion by selecting 'Help | Learn IDE Features' from the main menu.
 }

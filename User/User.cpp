@@ -8,3 +8,7 @@ User::User(const std::string& username, const std::string& name)
 
 std::string User::getUsername() const { return username; }
 std::string User::getName() const { return name; }
+
+bool User::operator==(const User& other) const {
+    return username == other.username;
+}

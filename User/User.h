@@ -13,6 +13,8 @@ public:
     std::string getUsername() const;
     std::string getName() const;
 
+    bool operator==(const User& other) const;
+
 private:
     std::string username;
     std::string name;

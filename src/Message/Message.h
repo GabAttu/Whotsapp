@@ -19,8 +19,8 @@ public:
     std::time_t getTimestamp() const;
 
 private:
-    const User& sender;
-    const User& receiver;
+    User sender;
+    User receiver;
     std::string text;
     std::time_t timestamp;
 };

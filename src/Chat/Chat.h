@@ -19,8 +19,8 @@ public:
     const User& getUser2() const;
 
 private:
-    const User& user1;
-    const User& user2;
+    User user1;
+    User user2;
     std::vector<Message> messages;
 };
 

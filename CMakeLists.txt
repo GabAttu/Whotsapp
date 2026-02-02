@@ -3,18 +3,36 @@ project(Whotsapp)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Whotsapp main.cpp
-        User/User.cpp
-        User/User.h
-        Message/Message.cpp
-        Message/Message.h
-        Chat/Chat.cpp
-        Chat/Chat.h
-        ChatRegister/ChatRegister.cpp
-        ChatRegister/ChatRegister.h)
+# GoogleTest setup
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/refs/heads/main.zip
+)
+# For Windows: prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
-add_executable(WhotsappTests tests.cpp
-        User/User.cpp
-        Message/Message.cpp
-        Chat/Chat.cpp
-        ChatRegister/ChatRegister.cpp)
+# Core Library
+add_library(WhotsappLib STATIC
+        src/User/User.cpp
+        src/User/User.h
+        src/Message/Message.cpp
+        src/Message/Message.h
+        src/Chat/Chat.cpp
+        src/Chat/Chat.h
+        src/ChatRegister/ChatRegister.cpp
+        src/ChatRegister/ChatRegister.h
+)
+target_include_directories(WhotsappLib PUBLIC src)
+
+# Main Executable
+add_executable(Whotsapp main.cpp)
+target_link_libraries(Whotsapp PRIVATE WhotsappLib)
+
+# Tests Executable
+add_executable(WhotsappTests tests/tests.cpp)
+target_link_libraries(WhotsappTests PRIVATE WhotsappLib GTest::gtest_main)
+
+include(GoogleTest)
+gtest_discover_tests(WhotsappTests)

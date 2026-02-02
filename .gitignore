@@ -1,0 +1,19 @@
+# CLion / CMake
+cmake-build-debug/
+cmake-build-release/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# IDE
+.idea/
+*.swp
+*.orig
+
+# Binari
+*.exe
+*.o
+*.obj
+*.a
+*.lib

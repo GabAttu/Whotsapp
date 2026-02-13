@@ -7,21 +7,24 @@
 
 #include <string>
 #include <ctime>
-#include "../User/User.h"
+#include "../Exceptions.h"
 
 class Message {
 public:
-    Message(const User& sender, const User& receiver, const std::string& text);
+    static const int MAX_LENGTH = 200;
+    Message(const std::string& sender, const std::string& receiver, const std::string& text, int id);
 
-    const User& getSender() const;
-    const User& getReceiver() const;
+    const std::string& getSender() const;
+    const std::string& getReceiver() const;
     const std::string& getText() const;
+    int getId() const;
     std::time_t getTimestamp() const;
 
 private:
-    User sender;
-    User receiver;
+    std::string sender;
+    std::string receiver;
     std::string text;
+    int id;
     std::time_t timestamp;
 };
 

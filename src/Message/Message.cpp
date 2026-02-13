@@ -4,21 +4,28 @@
 
 #include "Message.h"
 
-Message::Message(const User& sender, const User& receiver, const std::string& text)
-    : sender(sender), receiver(receiver), text(text) {
+Message::Message(const std::string& sender, const std::string& receiver, const std::string& text, int id)
+    : sender(sender), receiver(receiver), text(text), id(id) {
+    if (text.length() > MAX_LENGTH) {
+        throw MessageTooLongException("Message exceeds maximum length of " + std::to_string(MAX_LENGTH) + " characters");
+    }
     timestamp = std::time(nullptr);
 }
 
-const User& Message::getSender() const {
+const std::string& Message::getSender() const {
     return sender;
 }
 
-const User& Message::getReceiver() const {
+const std::string& Message::getReceiver() const {
     return receiver;
 }
 
 const std::string& Message::getText() const {
     return text;
+}
+
+int Message::getId() const {
+    return id;
 }
 
 std::time_t Message::getTimestamp() const {

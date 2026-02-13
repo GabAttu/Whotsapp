@@ -21,8 +21,11 @@ add_library(WhotsappLib STATIC
         src/Message/Message.h
         src/Chat/Chat.cpp
         src/Chat/Chat.h
-        src/ChatRegister/ChatRegister.cpp
-        src/ChatRegister/ChatRegister.h
+        src/ProgramManager/ProgramManager.cpp
+        src/ProgramManager/ProgramManager.h
+        src/TextUserInterface/TextUserInterface.cpp
+        src/TextUserInterface/TextUserInterface.h
+        src/Exceptions.h
 )
 target_include_directories(WhotsappLib PUBLIC src)
 

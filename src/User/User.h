@@ -5,19 +5,24 @@
 #ifndef WHOTSAPP_USER_H
 #define WHOTSAPP_USER_H
 #include <string>
+#include <vector>
+
+class Chat;
 
 class User {
 public:
-    User(const std::string& username, const std::string& name);
+    explicit User(const std::string& name);
 
-    std::string getUsername() const;
     std::string getName() const;
+
+    void addChat(Chat& chat);
+    const std::vector<Chat*>& getChats() const;
 
     bool operator==(const User& other) const;
 
 private:
-    std::string username;
     std::string name;
+    std::vector<Chat*> chats;
 };
 
 #endif //WHOTSAPP_USER_H

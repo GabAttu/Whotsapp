@@ -3,12 +3,18 @@
 //
 
 #include "User.h"
-User::User(const std::string& username, const std::string& name)
-    : username(username), name(name) {}
+User::User(const std::string& name) : name(name) {}
 
-std::string User::getUsername() const { return username; }
 std::string User::getName() const { return name; }
 
+void User::addChat(Chat& chat) {
+    chats.push_back(&chat);
+}
+
+const std::vector<Chat*>& User::getChats() const {
+    return chats;
+}
+
 bool User::operator==(const User& other) const {
-    return username == other.username;
+    return name == other.name;
 }

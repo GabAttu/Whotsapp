@@ -11,16 +11,19 @@
 
 class Chat {
 public:
-    Chat(const User& user1, const User& user2);
+    Chat(User& user1, User& user2, const std::string& name);
 
     void addMessage(const Message& msg);
+    void removeMessage(int index);
     const std::vector<Message>& getMessages() const;
     const User& getUser1() const;
     const User& getUser2() const;
+    const std::string& getName() const;
 
 private:
-    User user1;
-    User user2;
+    User& user1;
+    User& user2;
+    std::string name;
     std::vector<Message> messages;
 };
 

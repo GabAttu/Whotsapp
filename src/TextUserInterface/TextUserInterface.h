@@ -5,11 +5,22 @@
 
 class TextUserInterface {
 public:
+    // Costruttore: associa l'interfaccia al program manager
     explicit TextUserInterface(ProgramManager* program);
+    // Avvia il loop principale dell'interfaccia utente
     void beginProgram();
 
 private:
     ProgramManager* program;
+
+    void loginMenu();
+    void mainMenu();
+    void showChats();
+    void openChat();
+    void showUnreadMessages();
+    void changeUsername();
+    void deleteMessage();
+    void registerUser();
 };
 
 #endif //WHOTSAPP_TEXTUSERINTERFACE_H

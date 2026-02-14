@@ -6,13 +6,21 @@
 
 class ProgramManager {
 public:
-    explicit ProgramManager(User& user);
-    void addUser(User& user);
-    User& getCurrentUser() const;
+    // Costruttore: inizializza il manager
+    ProgramManager();
+    // Aggiunge un utente al sistema
+    void addUser(User* user);
+    // Restituisce l'utente attualmente loggato (può essere nullptr se non loggato)
+    User* getCurrentUser() const;
+    // Imposta l'utente corrente (login)
+    void setCurrentUser(User* user);
+    // Restituisce la lista di tutti gli utenti registrati
     const std::vector<User*>& getAllUsers() const;
+    // Cerca un utente per nome
+    User* findUser(const std::string& name) const;
 
 private:
-    User& currentUser;
+    User* currentUser;
     std::vector<User*> allUsers;
 };
 

@@ -38,4 +38,4 @@ add_executable(WhotsappTests tests/tests.cpp)
 target_link_libraries(WhotsappTests PRIVATE WhotsappLib GTest::gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(WhotsappTests)
+gtest_discover_tests(WhotsappTests DISCOVERY_TIMEOUT 60)

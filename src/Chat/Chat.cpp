@@ -39,3 +39,21 @@ const User& Chat::getUser2() const {
 const std::string& Chat::getName() const {
     return name;
 }
+
+int Chat::getUnreadCount(const std::string& userName) const {
+    int count = 0;
+    for (const auto& msg : messages) {
+        if (msg.getReceiver() == userName && !msg.isRead()) {
+            count++;
+        }
+    }
+    return count;
+}
+
+void Chat::markAsRead(const std::string& userName) {
+    for (auto& msg : messages) {
+        if (msg.getReceiver() == userName) {
+            msg.setRead(true);
+        }
+    }
+}

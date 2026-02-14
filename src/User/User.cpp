@@ -7,6 +7,10 @@ User::User(const std::string& name) : name(name) {}
 
 std::string User::getName() const { return name; }
 
+void User::setName(const std::string& newName) {
+    name = newName;
+}
+
 void User::addChat(Chat& chat) {
     chats.push_back(&chat);
 }

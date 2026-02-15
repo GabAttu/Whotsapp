@@ -18,7 +18,7 @@ void TextUserInterface::beginProgram() {
 void TextUserInterface::loginMenu() {
     std::cout << "\n--- Whotsapp Login ---" << std::endl;
     
-    auto users = program->getAllUsers();
+    const auto& users = program->getAllUsers();
     if (!users.empty()) {
         std::cout << "Utenti registrati: ";
         for (size_t i = 0; i < users.size(); ++i) {
@@ -30,6 +30,7 @@ void TextUserInterface::loginMenu() {
     std::cout << "1. Accedi" << std::endl;
     std::cout << "2. Registrati" << std::endl;
     std::cout << "3. Esci" << std::endl;
+    std::cout << "4. Visualizza registro delle chat" << std::endl;
     std::cout << "Scelta: ";
 
     int choice;
@@ -60,6 +61,9 @@ void TextUserInterface::loginMenu() {
         case 3:
             std::cout << "Arrivederci!" << std::endl;
             exit(0);
+        case 4:
+            showChatRegistry();
+            break;
         default:
             std::cout << "Scelta non valida." << std::endl;
     }
@@ -72,9 +76,10 @@ void TextUserInterface::registerUser() {
     if (program->findUser(name)) {
         std::cout << "Utente già esistente." << std::endl;
     } else {
-        User* newUser = new User(name);
-        program->addUser(newUser);
-        program->setCurrentUser(newUser);
+        auto newUser = std::make_unique<User>(name);
+        User* newUserPtr = newUser.get();
+        program->addUser(std::move(newUser));
+        program->setCurrentUser(newUserPtr);
         std::cout << "Registrazione completata!" << std::endl;
     }
 }
@@ -142,7 +147,7 @@ void TextUserInterface::openChat() {
     int index;
     std::cin >> index;
     if (index > 0 && index <= (int)chats.size()) {
-        Chat* chat = chats[index - 1];
+        auto chat = chats[index - 1];
         chat->markAsRead(user->getName());
         std::cout << "\n--- " << chat->getName() << " ---" << std::endl;
         for (const auto& msg : chat->getMessages()) {
@@ -189,7 +194,7 @@ void TextUserInterface::deleteMessage() {
     std::cout << "Seleziona la chat: ";
     int cIdx; std::cin >> cIdx;
     if (cIdx > 0 && cIdx <= (int)chats.size()) {
-        Chat* chat = chats[cIdx - 1];
+        auto chat = chats[cIdx - 1];
         auto& msgs = chat->getMessages();
         for (size_t i = 0; i < msgs.size(); ++i) {
             std::cout << i + 1 << ". [" << msgs[i].getSender() << "]: " << msgs[i].getText() << std::endl;
@@ -201,6 +206,38 @@ void TextUserInterface::deleteMessage() {
             std::cout << "Messaggio eliminato." << std::endl;
         } catch (...) {
             std::cout << "Errore nell'eliminazione." << std::endl;
+        }
+    }
+}
+
+void TextUserInterface::showChatRegistry() {
+    const auto& chats = program->getAllChats();
+    if (chats.empty()) {
+        std::cout << "Non ci sono chat nel sistema." << std::endl;
+        return;
+    }
+    std::cout << "\n--- Registro delle Chat ---" << std::endl;
+    for (size_t i = 0; i < chats.size(); ++i) {
+        std::cout << i + 1 << ". Chat tra " << chats[i]->getUser1().getName() 
+                  << " e " << chats[i]->getUser2().getName() 
+                  << " (" << chats[i]->getMessages().size() << " messaggi)" << std::endl;
+    }
+    std::cout << "Seleziona una chat per vedere i messaggi (0 per tornare): ";
+    int choice;
+    if (!(std::cin >> choice)) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return;
+    }
+    if (choice > 0 && choice <= (int)chats.size()) {
+        auto chat = chats[choice - 1];
+        std::cout << "\n--- Messaggi della chat ---" << std::endl;
+        if (chat->getMessages().empty()) {
+            std::cout << "(Nessun messaggio)" << std::endl;
+        } else {
+            for (const auto& msg : chat->getMessages()) {
+                std::cout << "[" << msg.getSender() << "]: " << msg.getText() << std::endl;
+            }
         }
     }
 }

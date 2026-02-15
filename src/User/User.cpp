@@ -11,11 +11,11 @@ void User::setName(const std::string& newName) {
     name = newName;
 }
 
-void User::addChat(Chat& chat) {
-    chats.push_back(&chat);
+void User::addChat(std::shared_ptr<Chat> chat) {
+    chats.push_back(chat);
 }
 
-const std::vector<Chat*>& User::getChats() const {
+const std::vector<std::shared_ptr<Chat>>& User::getChats() const {
     return chats;
 }
 

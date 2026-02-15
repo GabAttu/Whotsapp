@@ -6,12 +6,13 @@
 #define WHOTSAPP_USER_H
 #include <string>
 #include <vector>
+#include <memory>
 
 class Chat;
 
 class User {
 public:
-    // Costruttore: crea un utente con un nome
+
     explicit User(const std::string& name);
 
     // Restituisce il nome dell'utente
@@ -20,16 +21,16 @@ public:
     void setName(const std::string& newName);
 
     // Aggiunge una chat alla lista dell'utente
-    void addChat(Chat& chat);
+    void addChat(std::shared_ptr<Chat> chat);
     // Restituisce la lista delle chat dell'utente
-    const std::vector<Chat*>& getChats() const;
+    const std::vector<std::shared_ptr<Chat>>& getChats() const;
 
     // Operatore di uguaglianza basato sul nome
     bool operator==(const User& other) const;
 
 private:
     std::string name;
-    std::vector<Chat*> chats;
+    std::vector<std::shared_ptr<Chat>> chats;
 };
 
 #endif //WHOTSAPP_USER_H

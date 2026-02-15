@@ -21,6 +21,7 @@ private:
     void changeUsername();
     void deleteMessage();
     void registerUser();
+    void showChatRegistry();
 };
 
 #endif //WHOTSAPP_TEXTUSERINTERFACE_H

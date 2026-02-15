@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <memory>
 #include "User/User.h"
 #include "Message/Message.h"
 #include "Chat/Chat.h"
@@ -11,21 +12,32 @@ int main() {
         ProgramManager program;
 
         // Popolamento iniziale degli utenti
-        auto gabriele = new User("Gabriele");
-        auto serena = new User("Serena");
-        auto alessandro = new User("Alessandro");
-        auto elena = new User("Elena");
+        auto u1 = std::make_unique<User>("Gabriele");
+        auto gabriele = u1.get();
+        program.addUser(std::move(u1));
 
-        program.addUser(gabriele);
-        program.addUser(serena);
-        program.addUser(alessandro);
-        program.addUser(elena);
+        auto u2 = std::make_unique<User>("Serena");
+        auto serena = u2.get();
+        program.addUser(std::move(u2));
+
+        auto u3 = std::make_unique<User>("Alessandro");
+        auto alessandro = u3.get();
+        program.addUser(std::move(u3));
+
+        auto u4 = std::make_unique<User>("Elena");
+        auto elena = u4.get();
+        program.addUser(std::move(u4));
 
         // Popolamento iniziale delle chat
-        auto chat1 = new Chat(*gabriele, *serena, "Serena <3");
-        auto chat2 = new Chat(*gabriele, *alessandro, "Alessandro");
-        auto chat3 = new Chat(*elena, *alessandro, "Alessandro");
-        auto chat4 = new Chat(*elena, *gabriele, "Sorella");
+        auto chat1 = std::make_shared<Chat>(*gabriele, *serena, "Serena <3");
+        auto chat2 = std::make_shared<Chat>(*gabriele, *alessandro, "Alessandro");
+        auto chat3 = std::make_shared<Chat>(*elena, *alessandro, "Alessandro");
+        auto chat4 = std::make_shared<Chat>(*elena, *gabriele, "Sorella");
+
+        program.addChat(chat1);
+        program.addChat(chat2);
+        program.addChat(chat3);
+        program.addChat(chat4);
 
         // Messaggi
         chat1->addMessage(Message("Gabriele", "Serena", "Ciao! Come stai?", 0));
@@ -38,14 +50,14 @@ int main() {
         chat4->addMessage(Message("Elena", "Gabriele", "Si, arrivo tra poco.", 8));
 
 
-        gabriele->addChat(*chat1);
-        serena->addChat(*chat1);
-        alessandro->addChat(*chat2);
-        gabriele->addChat(*chat2);
-        gabriele->addChat(*chat4);
-        alessandro->addChat(*chat3);
-        elena->addChat(*chat3);
-        elena->addChat(*chat4);
+        gabriele->addChat(chat1);
+        serena->addChat(chat1);
+        alessandro->addChat(chat2);
+        gabriele->addChat(chat2);
+        gabriele->addChat(chat4);
+        alessandro->addChat(chat3);
+        elena->addChat(chat3);
+        elena->addChat(chat4);
 
         TextUserInterface interface(&program);
         interface.beginProgram();

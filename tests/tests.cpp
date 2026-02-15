@@ -77,12 +77,14 @@ TEST(WhotsappTest, RemoveMessage) {
 
 // Test per verificare la gestione dell'utente corrente e della lista utenti nel ProgramManager
 TEST(WhotsappTest, ProgramManager) {
-    User gabriele("Gabriele");
-    User serena("Serena");
+    auto gabriele = std::make_unique<User>("Gabriele");
+    auto serena = std::make_unique<User>("Serena");
+    User* gabrielePtr = gabriele.get();
+    
     ProgramManager program;
-    program.addUser(&gabriele);
-    program.addUser(&serena);
-    program.setCurrentUser(&gabriele);
+    program.addUser(std::move(gabriele));
+    program.addUser(std::move(serena));
+    program.setCurrentUser(gabrielePtr);
     
     EXPECT_EQ(program.getCurrentUser()->getName(), "Gabriele");
     EXPECT_EQ(program.getAllUsers().size(), 2);
@@ -92,7 +94,7 @@ TEST(WhotsappTest, ProgramManager) {
 TEST(WhotsappTest, UserAddChat) {
     User gabriele("Gabriele");
     User serena("Serena");
-    Chat chat(gabriele, serena, "Serena <3");
+    auto chat = std::make_shared<Chat>(gabriele, serena, "Serena <3");
     
     gabriele.addChat(chat);
     EXPECT_EQ(gabriele.getChats().size(), 1);
